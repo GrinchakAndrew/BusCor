@@ -1,0 +1,210 @@
+		
+		@font-face {
+			font-family: "_helvetica";
+			src: url('../fonts/Helvetica_CE_Regular.ttf') format('truetype');
+		}
+		
+        body {
+            font-family: "_helvetica";
+            font-size: 15px;
+        }
+		
+		
+		
+        
+        ul {
+            list-style-type: square;
+        }
+		
+		div~ul{
+			padding-left: 0;
+			margin-bottom: 0;
+		}
+		
+		h3 {
+			padding: 0;
+			margin: 0;
+		}
+		
+		.ul{
+			margin-top: 0;
+		}
+		
+		li[class*="L"]{
+			word-wrap : break-word;
+		}
+		
+        ol {
+            padding: 0;
+        }
+        
+        li {
+            padding-top: 10px;
+        }
+        
+        pre {
+            margin: 0;
+        }
+        
+		#leftbar .headingGroup a:nth-child(1):not([name]) {
+			color: #D80000;
+			padding-bottom: 6px;
+			color: #D80000;
+			padding-bottom: 6px;
+			font-variant : small-caps;
+			font-size: 16px;
+		}
+		
+        table[style*="width: 100%;"] tr:nth-child(odd) {
+            background-color: #EEE;
+        }
+        
+        table[style*="width: 100%;"] th {
+            line-height: 2em;
+        }
+		
+		table[style*="width: 100%;"] td:nth-child(1){
+			font-weight: 500;
+		}
+        
+		h1~div {
+			width: 40%;
+			float: right;
+			border-bottom: 2px solid #FF8C00;
+		}
+		h1 {
+			padding-top: 5%;
+			padding-left: 5%;
+			padding-bottom: 5%;
+			border-top: 2px solid #FF8C00;
+			border-left: 2px solid #FF8C00;
+			color: #003000;
+		}
+		
+        h2 {
+            text-align: right;
+            font-size: 21px;
+            font-weight: normal;
+            font-variant: small-caps;
+            color: #D80000;
+        }
+        
+        h3 {
+            padding-top: 5px;
+			font-size: 17px;
+            font-weight: normal;
+            font-variant: small-caps;
+            color: #D80000;
+        }
+        
+        .wrapper {
+            margin: 0 auto;
+            max-width: 1150px;
+			width: 100%;
+        }
+        /* Header */
+        
+		
+		
+        h1.heading {
+            color: black;
+        }
+        
+		/* Content */
+        
+        #content {
+            border-radius: 10px;
+            margin: 0 auto;
+            position: relative;
+            max-width: 1150px;
+			width: 100%;
+        }
+        
+        #leftbar {
+            float: left;
+			font-family: '_helvetica';
+            padding: 5px 15px 15px 15px;
+            position : fixed;
+			margin-top: 60px;
+            top: 0;
+			max-width: 240px;
+            width: 10%;
+			border-left: 0.5px solid #D80000;
+			border-right: 0.5px solid black;
+			border-radius: 25px;
+        }
+        
+        #leftbar a {
+            color: #0066FF;
+        }
+        
+        .headingGroup {
+            color: #D80000;
+            font-size: 16px;
+            font-variant: small-caps;
+            margin: 15px 0 3px 0;
+        }
+		
+		.headingGroup a {
+		
+			display : block;
+		}
+        
+        #rightbar {
+            border-radius: 0 10px 10px 0;
+            float: right;
+            padding: 15px;
+			width: 100%;
+			padding-left: 270px;
+			box-sizing: border-box;
+        }
+        
+        .firstHeading {
+            margin-top: 0;
+            margin-bottom: 0;
+            float: right;
+        }
+        
+        .good,
+        .bad {
+            font-family: "Courier New";
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .good {
+            background-color: #DFD;
+            color: #006633;
+            padding-left: 8px;
+            width: 755px;
+        }
+        
+        .bad {
+            background-color: #FDD;
+            color: #880000;
+            padding-left: 8px;
+            width: 755px;
+        }
+        
+        #footer {
+            background-color: #666;
+            color: #E5E5E5;
+            font-size: 9pt;
+            margin-top: 30px;
+            padding: 15px;
+        }
+        
+        .hr {
+            border: 1px solid #D80000;
+            background-color: #D80000;
+            clear: both;
+        }
+        
+        .bits {
+            color: #006633;
+        }
+        
+        body {
+            margin: 0;
+        }
+    
