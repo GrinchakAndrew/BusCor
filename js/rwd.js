@@ -547,9 +547,12 @@ function Config() {
                 if (config.g(target.alt, 1)) {
                     config.g(target.alt, 1).o();
                 }
-            }else if(){
-				/*write code here to handle the onscrolling down to the slide injection!*/
-			}
+            }
+			/*
+			else if(){
+			} write code here to handle the onscrolling down to the slide injection!
+			*/
+			
 			
 			
 			
