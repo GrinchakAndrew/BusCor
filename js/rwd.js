@@ -95,7 +95,7 @@ function Config() {
 								request.open('get', url, true);
 								request.onreadystatechange = function () {
 									if (request.readyState === 4) {
-										if(jsonify){
+										if(jsonify) {
 											config.slidesCollection = JSON.parse(request.responseText);
 											config.post = function(){
 												config.getSlideHTML();
@@ -103,7 +103,6 @@ function Config() {
 											config.post();
 										} else {
 											var _slide_ = request.responseText;
-											
 											console.log(_slide_, "slide");
 										}
 									}
@@ -112,24 +111,28 @@ function Config() {
 					}
 				},
 				
+				closest : function(el, tagName) {
+					while(el && el != document.body && el.tagName != tagName){
+						el = el.parentNode;
+					}
+					return el && el.tagName == tagName ? el : null;
+				},
+				
 				getSlidesCollection : function() {
 					 if (Object.prototype.toString.call(config.url) === "[object String]") {
 							config.postingCalls(config.url, true);
 					 }
 				},
-				
-				getSlideHTML : function(){
+				getSlideHTML : function() {
 					if(config.slidesCollection && config.slidesCollection[Object.keys(config.slidesCollection)[0]].length){
-						config.slidesCollection[Object.keys(config.slidesCollection)[0]].forEach(function(slide){
-							config.postingCalls(slide);
-						});
+						slideIndex ? config.postingCalls(config.slidesCollection[Object.keys(config.slidesCollection)[0]][slideIndex]) : 
+						config.postingCalls(config.slidesCollection[Object.keys(config.slidesCollection)[0]][0]);
 					}
 				},
-				
 				post : function () {
 					config.getSlidesCollection();
 				},
-
+				
                 constructor: function(targetEl, _e, _g, s, _u) {
                     var _config = {
                         documentCreateElement: function(El, id, style, text) {
@@ -172,8 +175,8 @@ function Config() {
                                 'zIndex': '9999'
                             }]));
                         },
-
-                        scroller: function(e) {
+						
+						scroller: function(e) {
                             var event = window.event || e,
                                 delta = event.detail ? event.detail * (-120) : event.wheelDelta,
                                 subRoutine = function(d) {
@@ -183,6 +186,24 @@ function Config() {
                                     }
                                     if (d <= -120 && handledImageContainer) {
                                         handledImageContainer.style.width = parseInt(handledImageContainer.style.width.match(/\d+/)) - 1 + '%';
+                                    }
+                                };
+                            if (delta && event.ctrlKey) {
+                                subRoutine(delta);
+                            }
+                            return false;
+                        },
+						
+						slides_scroller: function(e) {
+                            var event = window.event || e,
+                                delta = event.detail ? event.detail * (-120) : event.wheelDelta,
+								subRoutine = function(d) {
+                                    var slide = document.querySelector('#handledSlideContainer');
+									if (d >= 120 && slide) {
+										slide.style.width = parseInt(handledImageContainer.style.width.match(/\d+/)) + 1 + '%';	
+                                    }
+                                    if (d <= -120 && slide) {
+                                        slide.style.width = parseInt(handledImageContainer.style.width.match(/\d+/)) - 1 + '%';
                                     }
                                 };
                             if (delta && event.ctrlKey) {
@@ -303,6 +324,38 @@ function Config() {
                             }
                             executable();
                         },
+						
+						slidesHandler : function(e) {
+                            var _e = e || event,
+                                executable,
+                                _ex = e.target,
+                                subRoutine = function(eventType) {
+                                    var OpacityDivToBody = document.getElementById('OpacityDivToBody');
+                                    if (OpacityDivToBody) {
+                                        OpacityDivToBody.parentNode.removeChild(OpacityDivToBody);
+                                    }
+                                    if (document.querySelector('#wrapper') && document.querySelector('#handledSlideContainer')) {
+                                        document.querySelector('#wrapper').removeChild(document.querySelector('#handledSlideContainer'));
+                                    }
+                                    _u(_ex, eventType, _config.handler);
+                                    _u(document, event.type, _config.scroller);
+                                    _u(window, eventType, _config.handler);
+									
+                                };
+
+                            if (_e.type === 'keyup' | 'onkeyup') {
+                                executable = function() {
+                                    if (_e.keyCode.toString() === '27') {
+                                        subRoutine(_e.type);
+                                    }
+                                };
+                            } else if (_e.type === 'click' | 'onclick') {
+                                executable = function() {
+                                    subRoutine(_e.type);
+                                };
+                            }
+                            executable();
+                        },
 
                         handleImageContainer: function() {
                             if (targetEl) {
@@ -326,7 +379,7 @@ function Config() {
                                             'left': (_g(targetEl.alt, '', '', '', '', 1) + '%') ? (_g(targetEl.alt, '', '', '', '', 1) + '%') : 0
                                         }]),
                                         _ex = _config.documentCreateElement('div', '', [{
-                                            'background-image': "url('ppt_rwd_media/close.png')"
+                                            'background-image': "url('images/close.png')"
                                         }, {
                                             'position': 'absolute'
                                         }, {
@@ -421,7 +474,7 @@ function Config() {
                                             'left': (_g(targetEl.alt, '', '', '', '', 1) + '%') ? (_g(targetEl.alt, '', '', '', '', 1) + '%') : 0
                                         }]),
                                         _ex = _config.documentCreateElement('div', '', [{
-                                            'background-image': "url('ppt_rwd_media/close.png')"
+                                            'background-image': "url('images/close.png')"
                                         }, {
                                             'position': 'absolute'
                                         }, {
@@ -445,51 +498,29 @@ function Config() {
                                         }, {
                                             'background-size': '40px 40px'
                                         }], ''),
-                                        mousewheelEvt = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel";
+                                        mousewheelEvt = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel"; 
 
                                     document.getElementById('wrapper').appendChild(_el);
                                     _el.appendChild(_ex);
-
-                                    if (!_g(targetEl.alt)['mousewheelEvt']) {
-                                        s(targetEl.alt, {
-                                            'mousewheelEvt': 1
-                                        });
-                                        _e(document, mousewheelEvt, _config.scroller);
-                                    }
-
-                                    s(targetEl.alt, {
-                                        'click': 1
-                                    });
-
+									_e(document, mousewheelEvt, _config.slides_scroller);
                                     _e(_ex, 'click', function(e) {
-                                        _config.handler(e);
+                                        _config.slidesHandler(e);
                                     });
-
-                                    if (!_g(targetEl.alt)['keyup']) {
-                                        s(targetEl.alt, {
-                                            'keyup': 1
+									_e(window, 'keyup', function(e) {
+                                            _config.slidesHandler(e);
                                         });
-                                        _e(window, 'keyup', function(e) {
-                                            _config.handler(e);
-                                        });
-                                    }
-
-                                    if (!_g(targetEl.alt)['arrowPress']) {
-                                        s(targetEl.alt, {
-                                            'arrowPress': 1
-                                        });
-                                        _e(window, 'keydown', _config.arrowPress);
-                                    }
-
+									_e(window, 'keydown', _config.arrowPress);
                                     if (!document.querySelector('#OpacityDivToBody')) {
                                         _config.appendOpacityDivToBody();
                                     }
+									/*here is the result of the ajax call to appendTo*/
+									
                                 }
                             }
                         },
-						
-                        onclickHandler: function() {
-                            _config.handleImageContainer();
+                        onclickHandler: function(which) {
+							which.tagName == "IMG" ? _config.handleImageContainer() : 
+							_config.handleSlideContainer();
                         }
                     };
 					
@@ -507,18 +538,24 @@ function Config() {
                 g: config.getter,
                 F: config.constructor,
 				S: config.handleSlideContainer, 
-				p : config.post
+				p : config.post,
+				c : config.closest
             }
         };
-        var config;
+		
+        var config, 
+			slideIndex;
 			if(!config) {
 				config = new Config();
-				config.p();
 				config.e(document, 'scroll', function(e) {
-					/* clearInterval(menu.auto_interval);
-					clearTimeout(menu.automateSlidingTimeout); */
+					var lastSlide = document.querySelector('.slide-wrapper:last-of-type');
+					var lastSlideOffsetTop = lastSlide.offsetTop;
+					slideIndex = lastSlide.getAttribute('index');
+					if(lastSlide && document.body.scrollTop >= lastSlideOffsetTop) {
+						debugger;
+						config.p();
+					}
 					menu.slide(100);
-					
 				});
 				
 			}
@@ -538,25 +575,23 @@ function Config() {
 		
         config.e(document, 'click', function(e) {
             var event = e || event,
-                target = event.target || event.srcElement;
+                target = event.target || event.srcElement, 
+				_config;
             if ((target.tagName === 'IMG' && config.g(target.alt))) {
                 if (!config.g(target.alt, 1)) {
-                    var _config = new config.F(target, config.e, config.g, config.s, config.u);
+                    _config = new config.F(target, config.e, config.g, config.s, config.u);
                     config.s(target.alt, '', _config);
                 }
                 if (config.g(target.alt, 1)) {
-                    config.g(target.alt, 1).o();
+                    config.g(target.alt, 1).o(target.alt);
                 }
-            }
-			/*
-			else if(){
-			} write code here to handle the onscrolling down to the slide injection!
-			*/
-			
-			
-			
-			
+            }else if(config.c(e.target, 'TABLE')){
+				_config = !config.instance ? new config.F(target, config.e, config.g, config.s, config.u) : config.instance;
+				_config.o(config.c(e.target, 'TABLE'));
+			}
         });
+		
+		
 		var menu = {
             addClass: function(el, className) {
                 return el.className = className;

@@ -1,3 +1,3 @@
 {
-	"collection" : ["data/slide1.html", "data/slide1.html"]
+	"collection" : ["data/slide1.html", "data/slide2.html", "data/slide3.html"]
 }
