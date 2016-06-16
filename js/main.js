@@ -808,7 +808,7 @@ instance.d(function() {
         instance.slideIndex = instance.lastSlide.getAttribute('index');
         instance.lastSlideOffsetTop = instance.lastSlide.offsetTop;
         if (instance.slideIndex && (~~instance.slideIndexArray.indexOf(instance.slideIndex) || !instance.slideIndexArray.length)) {
-            if (instance.lastSlide && document.body.scrollTop >= instance.lastSlideOffsetTop / 1.5) {
+            if (instance.lastSlide && document.body.scrollTop >= instance.lastSlideOffsetTop / 1.2) {
                 instance.slideIndexArray.push(instance.slideIndex);
                 instance.p();
             }
