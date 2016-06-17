@@ -695,9 +695,9 @@ function Config() {
                     insideEl.querySelector('h3').innerHTML = document.querySelector('h1 span').innerHTML + insideEl.querySelector('h3').innerHTML;
                     document.body.appendChild(newEl);
                     document.getElementById('stickingMenu').appendChild(insideEl);
-                    animatory.animate(document.getElementById('stickingMenu'), 60, 0.03);
+                    config.animatory.animate(document.getElementById('stickingMenu'), 60, 0.03);
                 } else if (document.getElementById('stickingMenu').style.opacity == "0") {
-                    animatory.animate(document.getElementById('stickingMenu'), 60, 0.03);
+                    config.animatory.animate(document.getElementById('stickingMenu'), 60, 0.03);
                 }
             },
             restore: function() {
@@ -713,12 +713,12 @@ function Config() {
             stickerEngine: function() {
                 var el = document.querySelector('h3'),
                     marginTop = parseInt(window.getComputedStyle(el, null)['marginTop'].match(/\d+/g)[0]);
-                if (animatory.scrollTop() > el.offsetTop - el.scrollHeight) {
-                    animatory.appendStickyMenu();
+                if (config.animatory.scrollTop() > el.offsetTop - el.scrollHeight) {
+                    config.animatory.appendStickyMenu();
                 }
-                if (animatory.scrollTop() < (el.offsetTop + el.scrollHeight + marginTop)) {
-                    animatory.restore();
-                    animatory.deanimate();
+                if (config.animatory.scrollTop() < (el.offsetTop + el.scrollHeight + marginTop)) {
+                    config.animatory.restore();
+                    config.animatory.deanimate();
                 }
             },
             deanimate: function() {
