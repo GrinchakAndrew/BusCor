@@ -1,16 +1,16 @@
 function Config() {
     var config = {
         altCol: {
-            '': {
+            'css_history': {
                 'state': {
                     'click': 0,
                     'keyup': 0
                 },
                 '_config': null,
-                'src': "",
-                'width': '40%',
-                'enlargeToWidth': 27,
-                'left': 40
+                'src': "images/css_history.png",
+                'width': '95%',
+                'enlargeToWidth': 50,
+                'left': 25
             }
         },
         getter: function(alt, _config, src, width, enlargeToWidth, left) {
@@ -34,7 +34,6 @@ function Config() {
                 return config.altCol[alt] && config.altCol[alt]['left'] ? config.altCol[alt]['left'] : null;
             }
         },
-
         setter: function(alt, val, _config) {
             if (_config && alt) {
                 !config.altCol[alt]['_config'] ? config.altCol[alt]['_config'] = _config : '';
@@ -46,41 +45,32 @@ function Config() {
                 }
             }
         },
-
         domReady: function(callback) {
             config.eventsBinder(document, 'DOMContentLoaded', function() {
                 callback();
                 callback = function() {};
             });
-
             config.eventsBinder(document, 'readystatechange', function() {
                 if (document.readyState === 'complete') {
                     callback();
                     callback = function() {};
                 }
             });
-
         },
-
         eventsBinder: function(El, event, handler) {
-
             if (El && El.addEventListener) {
                 El.addEventListener(event, handler);
             } else if (El && El.attachEvent) {
                 El.attachEvent('on' + event, handler);
             }
         },
-
         eventsUnbinder: function(El, event, handler) {
             if (El && El.removeEventListener) {
                 El.removeEventListener(event, handler);
-            }
-
-            if (El && El.detachEvent) {
-                El.detachEvent('on' + event, handler);
-            }
+            }else if(El && El.detachEvent){
+				El.detachEvent('on' + event, handler);
+			}
         },
-
         url: 'data/slides.js',
         slidesCollection: '',
         postingCalls: function(url, jsonify) {
@@ -113,12 +103,10 @@ function Config() {
                             lastSlideParent.innerHTML = lastSlideParent.innerHTML + _slide_;
                             if (document.querySelector('.slide-wrapper:last-of-type')) {
                                 config.animatory.els2ani.push(document.querySelector('.slide-wrapper:last-of-type'));
-                            } /* else {
-                                config.animatory.els2ani.push(document.querySelector('.slide-wrapper'));
-                            } */
+                            }
                             config.menu.cleanMenu();
                             config.animatory.deanimate();
-							
+							instance.setImgs();
 							config.animatory.els2ani.forEach(function(i, j, arr) {
 								config.animatory.animate(i, 110, 0.03);
 							});
@@ -128,14 +116,26 @@ function Config() {
                 request.send();
             }
         },
-        closest: function(el, tagName) {
+        closest: function(el, tagName, className) {
             while (el && el != document.body && el.tagName != tagName) {
                 el = el.parentNode;
             }
-            return el && el.tagName == tagName ? el : null;
+            return el && el.tagName == tagName && el.className == className? el : null;
         },
-
-        getSlidesCollection: function() {
+		setImagesPer_AJAX_InjectedSlides : function() {
+			instance.g().forEach(function(i) {
+				var img = new Image(),
+					parent = i ? document.querySelector('#' + i) : '';
+				if (parent && !parent.children.length) {
+					img.alt = i;
+					img.src = instance.g(i, '', 1);
+					img.style.cursor = 'pointer';
+					img.style.width = instance.g(i, '', '', 1);
+					parent ? parent.appendChild(img) : null;
+				}
+		});
+	}, 
+       getSlidesCollection: function() {
             if (Object.prototype.toString.call(config.url) === "[object String]" && !config.slidesCollection) {
                 config.postingCalls(config.url, true);
             }
@@ -195,7 +195,6 @@ function Config() {
                         'zIndex': '9999'
                     }]));
                 },
-
                 scroller: function(e) {
                     var event = window.event || e,
                         delta = event.detail ? event.detail * (-120) : event.wheelDelta,
@@ -213,7 +212,6 @@ function Config() {
                     }
                     return false;
                 },
-
                 slides_scroller: function(e) {
                     var event = window.event || e,
                         delta = event.detail ? event.detail * (-120) : event.wheelDelta,
@@ -231,7 +229,6 @@ function Config() {
                     }
                     return false;
                 },
-
                 arrowPress: function(e) {
                     var event = e || window.event,
                         handled_Image_Slide_Container = document.querySelector('#handledImageContainer') || document.querySelector('#handledSlideContainer'),
@@ -300,7 +297,6 @@ function Config() {
                             }
                     }
                 },
-
                 handler: function(e) {
                     var _e = e || event,
                         executable,
@@ -336,7 +332,6 @@ function Config() {
                     }
                     executable();
                 },
-
                 slidesHandler: function(e) {
                     var _e = e || event,
                         executable,
@@ -367,7 +362,6 @@ function Config() {
                     }
                     executable();
                 },
-
                 handleImageContainer: function() {
                     if (targetEl) {
                         if (!document.getElementById('handledImageContainer')) {
@@ -432,15 +426,12 @@ function Config() {
                                 });
                                 _e(document, mousewheelEvt, _config.scroller);
                             }
-
                             s(targetEl.alt, {
                                 'click': 1
                             });
-
                             _e(_ex, 'click', function(e) {
                                 _config.handler(e);
                             });
-
                             if (!_g(targetEl.alt)['keyup']) {
                                 s(targetEl.alt, {
                                     'keyup': 1
@@ -449,21 +440,18 @@ function Config() {
                                     _config.handler(e);
                                 });
                             }
-
                             if (!_g(targetEl.alt)['arrowPress']) {
                                 s(targetEl.alt, {
                                     'arrowPress': 1
                                 });
                                 _e(window, 'keydown', _config.arrowPress);
                             }
-
                             if (!document.querySelector('#OpacityDivToBody')) {
                                 _config.appendOpacityDivToBody();
                             }
                         }
                     }
                 },
-
                 handleSlideContainer: function(which) {
                     if (targetEl) {
                         if (!document.getElementById('handledSlideContainer')) {
@@ -510,7 +498,6 @@ function Config() {
                                     'background-size': '40px 40px'
                                 }], ''),
                                 mousewheelEvt = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel";
-
                             document.getElementById('wrapper').appendChild(_el);
                             _el.appendChild(which.cloneNode(true));
                             _el.appendChild(_ex);
@@ -529,16 +516,14 @@ function Config() {
                     }
                 },
                 onclickHandler: function(which) {
-                    which.tagName == "IMG" ? _config.handleImageContainer() :
+                    which && which.tagName && which.tagName == "IMG" ? _config.handleImageContainer() :
                         _config.handleSlideContainer(which);
                 }
             };
-
             return {
                 o: _config.onclickHandler
             }
         },
-
         menu: {
             cleanMenu: function() {
                 document.querySelector('#leftbar').innerHTML = "";
@@ -560,7 +545,6 @@ function Config() {
                 });
                 config.menu.buildMenu();
             },
-
             addClass: function(el, className) {
                 return el.className = className;
             },
@@ -679,7 +663,6 @@ function Config() {
                 slide_itemizely.router();
             }
         },
-
         animatory: {
             els2ani: [],
             mousewheelEvt: (/Firefox/i.test(navigator.userAgent)) ? 'DOMMouseScroll' : 'mousewheel',
@@ -785,11 +768,11 @@ function Config() {
         p: config.post,
         c: config.closest,
         m: config.menu,
-        ani: config.animatory
+        ani: config.animatory,
+		setImgs	: config.setImagesPer_AJAX_InjectedSlides
     }
 };
 var instance = !instance ? instance = new Config() : instance;
-
 instance.d(function() {
     instance.m.buildMenu();
     /* var prettyprintedElCol = document.querySelectorAll('.prettyprinted');
@@ -806,6 +789,7 @@ instance.d(function() {
         instance.lastSlide = document.querySelector('.slide-wrapper:last-of-type') || document.querySelector('.slide-wrapper');
         instance.slideIndex = instance.lastSlide.getAttribute('index');
         instance.lastSlideOffsetTop = instance.lastSlide.offsetTop;
+		
         if (instance.slideIndex && (~~instance.slideIndexArray.indexOf(instance.slideIndex) || !instance.slideIndexArray.length)) {
             if (instance.lastSlide && document.body.scrollTop >= instance.lastSlideOffsetTop / 1.2) {
                 instance.slideIndexArray.push(instance.slideIndex);
@@ -814,24 +798,14 @@ instance.d(function() {
         }
         instance.m.slide(100);
     });
-    instance.g().forEach(function(i) {
-        var img = new Image(),
-            parent = i ? document.querySelector('#' + i) : '';
-        if (parent && !parent.children.length) {
-            img.alt = i;
-            img.src = instance.g(i, '', 1);
-            img.style.cursor = 'pointer';
-            img.style.width = instance.g(i, '', '', 1);
-            parent ? parent.appendChild(img) : null;
-        }
-    });
+	instance.setImgs();
 });
+
 /*animation:*/
 instance.e(document, instance.ani.mousewheelEvt, instance.ani.handler);
 instance.e(document, 'keyup', instance.ani.handler);
 instance.e(document, 'mousedown', instance.ani.handler);
 instance.e(document, 'touchend', instance.ani.handler);
-
 instance.e(document, 'click', function(e) {
     var event = e || event,
         target = event.target || event.srcElement,
@@ -842,10 +816,10 @@ instance.e(document, 'click', function(e) {
             instance.s(target.alt, '', _config);
         }
         if (instance.g(target.alt, 1)) {
-            instance.g(target.alt, 1).o(target.alt);
+            instance.g(target.alt, 1).o(target);
         }
-    } else if (instance.c(e.target, 'TABLE')) {
+    } else if (instance.c(e.target, 'TABLE', 'slide')) {
         _config = !instance.instance ? new instance.F(target, instance.e, instance.g, instance.s, instance.u) : instance.instance;
-        _config.o(instance.c(e.target, 'TABLE'));
+        _config.o(instance.c(e.target, 'TABLE', 'slide'));
     }
 });
