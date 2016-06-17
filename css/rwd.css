@@ -1,39 +1,28 @@
-		
 		@font-face {
 			font-family: "_helvetica";
 			src: url('../fonts/Helvetica_CE_Regular.ttf') format('truetype');
 		}
-		
         body {
             font-family: "_helvetica";
             font-size: 15px;
         }
-		
-		
-		
-        
         ul {
             list-style-type: square;
         }
-		
 		div~ul{
 			padding-left: 0;
 			margin-bottom: 0;
 		}
-		
 		h3 {
 			padding: 0;
 			margin: 0;
 		}
-		
 		.ul{
 			margin-top: 0;
 		}
-		
 		li[class*="L"]{
 			word-wrap : break-word;
 		}
-		
         ol {
             padding: 0;
         }
@@ -103,15 +92,10 @@
 			width: 100%;
         }
         /* Header */
-        
-		
-		
         h1.heading {
             color: black;
         }
-        
 		/* Content */
-        
         #content {
             border-radius: 10px;
             margin: 0 auto;
@@ -119,7 +103,11 @@
             max-width: 1150px;
 			width: 100%;
         }
-        
+		
+		
+		
+		
+		
         #leftbar {
             float: left;
 			font-family: '_helvetica';
@@ -127,12 +115,35 @@
             position : fixed;
 			margin-top: 60px;
             top: 0;
-			max-width: 240px;
-            width: 10%;
+			max-width: 15%;
 			border-left: 0.5px solid #D80000;
 			border-right: 0.5px solid black;
 			border-radius: 25px;
         }
+		
+		@media (max-width: 750px) {
+			  #leftbar {
+				max-width: 30%;
+			}
+		}
+		
+		@media (max-width: 600px) {
+			  #leftbar {
+				max-width: 30%;
+			}
+		}
+		
+		@media (max-width: 500px) {
+			  #leftbar {
+				max-width: 30%;
+			}
+		}
+		
+		@media (max-width: 380px) {
+			  #leftbar {
+				max-width: 40%;
+			}
+		}
         
         #leftbar a {
             color: #0066FF;

@@ -120,7 +120,7 @@ function Config() {
                             config.animatory.deanimate();
 							
 							config.animatory.els2ani.forEach(function(i, j, arr) {
-								setTimeout(config.animatory.animate(i, 110, 0.03), j*3000);
+								config.animatory.animate(i, 110, 0.03);
 							});
 						}
                     }
@@ -727,7 +727,6 @@ function Config() {
                 });
             },
             animate: function(el, time, step, reverse) {
-				console.log(new Date());
                 var _interval,
                     direct = function() {
                         if (el && !el.style.opacity.match(/^1[.]/)) {
